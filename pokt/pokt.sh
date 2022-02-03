@@ -1,6 +1,7 @@
 #!/bin/bash
 set -ex
 
+# root is where the root directory os config and data will be on the host
 scriptdir=$(dirname $0)
 root="/mnt/storage/blockchain/pokt"
 
@@ -8,10 +9,16 @@ root="/mnt/storage/blockchain/pokt"
 password="$(cat /proc/sys/kernel/random/uuid | sed s/-//g)"
 
 # cleaning target directory
-rm -rf ${root}/root/*
+if [ -d ${root}/root ]; then
+    rm -rf ${root}/root/*
+fi
+
+# ensure default directory layout
+mkdir -p ${root}/root/config
+mkdir -p ${root}/keys
+mkdir -p ${root}/data
 
 # copy config file from template
-mkdir -p ${root}/root/config
 cp ${scriptdir}/config.json ${root}/root/config/
 
 # create initial files
