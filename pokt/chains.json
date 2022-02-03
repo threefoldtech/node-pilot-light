@@ -1,0 +1,19 @@
+[
+    {
+        "id": "0001",
+        "url": "http://localhost:8081",
+        "basic_auth": {
+            "username": "",
+            "password": ""
+        }
+    },
+    {
+        "id": "0021",
+        "url": "http://eth-mainnet",
+        "basic_auth": {
+            "username": "",
+            "password": ""
+        }
+    }
+]
+

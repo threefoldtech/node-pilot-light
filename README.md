@@ -10,6 +10,14 @@ This require docker.
 For each blockchain, the actual `db` is always in the `data` directory on the container.
 Ensure that directory is a volume pointing to the database (zdbfs, overlay, whatever).
 
+# Chains
+
+Generating chains.json for pokt is not yet supported. There is an example in the `pokt/chains.json` file.
+This file makes the link between chains and pokt.
+
+Here are the list of IDs for chains:
+https://docs.pokt.network/home/resources/references/supported-blockchains#mainnet-relaychains
+
 # Overlayfs
 
 In order to use zdbfs as read-only backend, first mount a zdb with database inside:
