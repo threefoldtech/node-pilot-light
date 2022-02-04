@@ -53,13 +53,42 @@ There is a public (on testnet) zdb, with `pokt` and `fuse` database in as a test
     -o th=2a10:b600:1:0:b075:a3ff:fe67:f2fc -o tn=399-2714-bc1temp -o ts=b1-temp-pwd
 ```
 
-This will mount a read-only (but cache flush allowed) zdbfs locally using remote public zdb.
+This will mount a **read-only** (but cache flush allowed) zdbfs locally using remote public zdb.
 
-Now we need to use that zdbfs as read-only layer of overlayfs:
+Now we need to use that `zdbfs` as read-only layer of `overlayfs`:
 ```
 mkdir -p /mnt/overlay/readwrite
 mkdir -p /mnt/overlay/workdir
 mkdir -p /mnt/overlay/mountpoint
+
 mount -t overlay overlay -o lowerdir=/mnt/zdbfs,upperdir=/mnt/overlay/readwrite,workdir=/mnt/overlay/workdir /mnt/overlay/mountpoint
 ```
 
+# Mounting zdbfs data to chains data
+
+Each blockchain have their own data directory, defined by `${root}/data` variable in each deploy script.
+
+In order to use `overlayfs as data endpoint, we can easily **mount-bind** them:
+```
+mkdir -p /mnt/storage/blockchain/pokt/data
+mount -o bind /mnt/overlay/mountpoint/pokt /mnt/storage/blockchain/pokt/data
+````
+
+This will make the database available to pokt expected database directory
+
+The same needs to be done with other chains.
+
+# Pokt configuration
+
+A public endpoint needs to be available for pokt to interract, this endpoint is configured in `pokt/config.json` file (line 58).
+This can use public ip, not needed to be domain name.
+```
+"ExternalAddress": "tcp://1.2.3.4:26656",
+```
+
+# Pokt stake
+
+When doing the validator stake, a service URI needs to point to pokt, via HTTPS:
+https://docs.pokt.network/core/guides/quickstart#stake-the-validator
+
+I don't know exactly where that should point right now
