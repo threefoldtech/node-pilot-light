@@ -41,3 +41,25 @@ mount -t overlay overlay -o lowerdir=/mnt/zdbfs,upperdir=/somewhere/readwrite,wo
 Note: upperdir and workdir needs some feature on the fs, which are only implemented in: ext2, ext3, ext4,
 UDF, Minix, tmpfs, XFS (Linux 3.15); Btrfs (Linux 3.16); F2FS (Linux 3.16); and ubifs (Linux 4.9)
 
+# Public Testnet Overlay
+
+**WARNING**: doing bad commands here can break remote public things. Don't forget `-o ro` flags.
+
+There is a public (on testnet) zdb, with `pokt` and `fuse` database in as a test.
+```
+./zdbfs /mnt/zdbfs -o ro \
+    -o mh=2a10:b600:1:0:b075:a3ff:fe67:f2fc -o mn=399-2714-bc1meta -o ms=b1-meta-pwd \
+    -o dh=2a10:b600:1:0:b075:a3ff:fe67:f2fc -o dn=399-2714-bc1data -o ds=b1-data-pwd \
+    -o th=2a10:b600:1:0:b075:a3ff:fe67:f2fc -o tn=399-2714-bc1temp -o ts=b1-temp-pwd
+```
+
+This will mount a read-only (but cache flush allowed) zdbfs locally using remote public zdb.
+
+Now we need to use that zdbfs as read-only layer of overlayfs:
+```
+mkdir -p /mnt/overlay/readwrite
+mkdir -p /mnt/overlay/workdir
+mkdir -p /mnt/overlay/mountpoint
+mount -t overlay overlay -o lowerdir=/mnt/zdbfs,upperdir=/mnt/overlay/readwrite,workdir=/mnt/overlay/workdir /mnt/overlay/mountpoint
+```
+
