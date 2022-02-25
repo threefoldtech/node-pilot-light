@@ -3,7 +3,7 @@ set -ex
 
 # root is where the root directory config and data will be on the host
 scriptdir=$(dirname $0)
-root="/mnt/storage/blockchain/fuse"
+root=${root:-"/mnt/storage/blockchain/fuse"}
 
 if [ -d ${root} ]; then
     rm -rf ${root}/keys

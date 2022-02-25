@@ -3,7 +3,7 @@ set -ex
 
 # root is where the root directory os config and data will be on the host
 scriptdir=$(dirname $0)
-root="/mnt/storage/blockchain/harmony"
+root=${root:-"/mnt/storage/blockchain/harmony"}
 
 # ensure default directory layout
 mkdir -p ${root}/keys

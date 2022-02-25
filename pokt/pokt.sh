@@ -3,7 +3,7 @@ set -ex
 
 # root is where the root directory os config and data will be on the host
 scriptdir=$(dirname $0)
-root="/mnt/storage/blockchain/pokt"
+root=${root:-"/mnt/storage/blockchain/pokt"}
 
 # random password
 password="$(cat /proc/sys/kernel/random/uuid | sed s/-//g)"
