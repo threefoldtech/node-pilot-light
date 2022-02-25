@@ -13,7 +13,7 @@ mkdir -p ${root}/data
 cp ${scriptdir}/harmony.conf ${root}/harmony.conf
 cp ${scriptdir}/run.sh ${root}/run.sh
 
-docker run --rm -it --name harmony --net host --entrypoint /run.sh \
+docker run --rm -d --name harmony --net host --entrypoint /run.sh \
     -v ${root}/harmony.conf:/harmony/harmony.conf \
     -v ${root}/data:/root/data \
     -v ${root}/keys:/root/keystore \

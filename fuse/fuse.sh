@@ -18,7 +18,7 @@ mkdir -p ${root}/conf
 # copy config file from template and run script
 cp ${scriptdir}/fuse.toml ${root}/conf/fuse.toml
 
-docker run --rm -it --name fuse-000 --net host \
+docker run --rm -d --name fuse-000 --net host \
     -v ${root}/data:/root/data \
     -v ${root}/keys:/root/keystore \
     -v ${root}/conf/fuse.toml:/root/config.toml \

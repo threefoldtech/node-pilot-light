@@ -51,7 +51,7 @@ docker run -i --rm --entrypoint pocket \
 # TODO
 
 # runs the blockchain
-docker run -i --rm --net host --entrypoint pocket \
+docker run -d --rm --name pokt-000 --net host --entrypoint pocket \
     -v ${root}/root:/root/.pocket \
     -v ${root}/keys:/root/pocket-keys \
     -v ${root}/data:/root/pocket-data \
