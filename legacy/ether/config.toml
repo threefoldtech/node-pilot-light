@@ -1,0 +1,13 @@
+[Eth]
+NetworkId = 1
+
+[Node]
+DataDir = "/root/.ethereum"
+KeyStoreDir = "/root/keystore"
+HTTPHost = "0.0.0.0"
+HTTPPort = 8545
+HTTPVirtualHosts = ["*"]
+HTTPModules = ["net", "web3", "eth"]
+
+[Node.P2P]
+ListenAddr = ":8546"
