@@ -1,0 +1,40 @@
+#!/bin/bash
+/root/zdb-2.0.4-linux-amd64-static \
+	--data /root/localzdb-data --index /root/localzdb-index \
+	--listen 127.0.0.1 --background
+
+mkdir -p /mnt/cache
+
+if [ -e /dev/vdb ]; then
+    size=$(fdisk -l /dev/vdb | grep Disk | grep bytes | awk '{ print $5 }')
+
+    if [ $size -gt 67108864 ]; then
+        echo "[+] initializing cache disk"
+
+        mkfs.ext4 /dev/vdb || true
+        mount /dev/vdb /mnt/cache
+
+        echo "[+] cache disk ready"
+    else
+        echo "[-] device /dev/vdb: size too small ($size bytes)"
+    fi
+
+else
+    echo "[-] no /dev/vdb found: skipping cache"
+fi
+
+
+curl https://raw.githubusercontent.com/threefoldtech/node-pilot-light/development/upstream/latest-build | bash
+
+mkdir -p /mnt/cache/readwrite
+mkdir -p /mnt/cache/workdir
+
+mount -t overlay overlay \
+	-o lowerdir=/mnt/zdbfs,upperdir=/mnt/cache/readwrite,workdir=/mnt/cache/workdir \
+	/home/nodep/.node-pilot/chains
+
+chown nodep:nodep /home/nodep/.node-pilot
+chown nodep:nodep /home/nodep/.node-pilot/chains
+
+su - nodep -c /home/nodep/init.sh
+
