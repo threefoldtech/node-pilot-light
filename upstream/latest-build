@@ -1,0 +1,6 @@
+#!/bin/bash
+/root/zdbfs-0.1.10-amd64-linux-static /mnt/zdbfs \
+    -o mh=2a10:b600:1:0:8c4c:2ff:fe27:ce8c -o mn=399-6629-zdbfsxmeta \
+    -o dh=2a10:b600:1:0:8c4c:2ff:fe27:ce8c -o dn=399-6629-zdbfsxdata \
+    -o th=127.0.0.1 -o ts=hello \
+    -o allow_other -o allow_root -o ro -o background
